@@ -1,0 +1,39 @@
+
+{% extends 'sign-in/base.html' %}
+{% load static %}
+{% block body  %}
+<main class="form-signin w-100 m-auto">
+    <form method='post' action="">
+        {% csrf_token %}
+      <img class="mb-4" src="{% static 'images/memory.jpg' %}" alt="" width="72" height="57">
+      <h1 class="h3 mb-3 fw-normal">Create a new Account</h1>
+      <div class="form-floating">
+        <input type="text" class="form-control" id="first_name" placeholder="First name" name="first_name">
+        <label for="floatingInput">First Name</label>
+      </div>
+      <div class="form-floating">
+        <input type="text" class="form-control" id="last_name" placeholder="Last name" name="last_name">
+        <label for="floatingInput">Last Name</label>
+      </div>
+  
+      <div class="form-floating">
+        <input type="email" class="form-control" id="email" placeholder="name@example.com" name="email">
+        <label for="floatingInput">Email address</label>
+      </div>
+      <div class="form-floating">
+        <input type="password" class="form-control" id="password" placeholder="Password" name="password">
+        <label for="floatingPassword">Password</label>
+      </div>
+      
+      <button class="w-100 btn btn-lg btn-primary" type="submit">Sign Up</button>
+      
+      <p class="mt-5 mb-3 text-body-secondary">&copy; 2017–2023</p>
+    </form>
+    <div>
+      {% for message in messages %}
+      <h3> {{message}} </h3>
+      {% endfor %}
+  </div>    
+  </main>
+  
+{% endblock body%}

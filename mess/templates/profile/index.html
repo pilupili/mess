@@ -1,0 +1,191 @@
+{% extends 'sidebars/index.html' %}
+{% load static %}
+{% block alu  %}
+{% comment %} 
+<!DOCTYPE html>
+{% load static%} {% endcomment %}
+{% comment %} <html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="generator" content="Codeply">
+  <title>Codeply simple HTML/CSS/JS preview</title>
+  <!-- base href="https://www.codeply.com/v/OVEDJpLnp1" --> 
+
+  <link rel="stylesheet" href="{% static 'profile/imageUpload/normalize.min.css' %}">  
+  
+
+  <link rel="stylesheet" href="{% static 'profile/imageUpload/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'profile/imageUpload/profile.css' %}">
+
+</head> 
+<body>
+  {% endcomment %}
+  <div class="container">
+    {% comment %} <link rel="stylesheet" href="{% static 'profile/imageUpload/normalize.min.css' %}">   {% endcomment %}
+    {% comment %} <link href="{% static 'sign-in/sign-in.css' %}" rel="stylesheet"> {% endcomment %}
+
+    {% comment %} <link rel="stylesheet" href="{% static 'profile/imageUpload/bootstrap.min.css' %}"> {% endcomment %}
+    <link rel="stylesheet" href="{% static 'profile/imageUpload/profile.css' %}">
+
+    <main class="form-signin w-100 m-auto">
+      <form method='post' action="update/" enctype="multipart/form-data">
+          {% csrf_token %}
+        {% comment %} <img class="mb-4" src="{% static 'images/memory.jpg' %}" alt="" width="72" height="57"> {% endcomment %}
+        {% comment %} <h1 class="h3 mb-3 fw-normal">Update Profile</h1> {% endcomment %}
+        {% comment %} <div class="picture-container">
+          <div class="picture">
+              <img src="" class="picture-src" id="wizardPicturePreview" title="">
+              <input type="file" id="wizard-picture" class="">
+          </div> {% endcomment %}
+          <div class="mb-3">
+            <label for="" class="form-label">Image</label>
+            <input type="file" Required name="image" class="form-control">
+            
+
+           <h6 class="">Choose Picture</h6>
+          </div>
+
+        <div class="form-floating">
+          <input type="text" class="form-control" id="first_name" placeholder="First name" name="first_name" value="{{first_name}}">
+          <label for="floatingInput">First Name</label>
+        </div>
+        <div class="form-floating">
+          <input type="text" class="form-control" id="last_name" placeholder="Last name" name="last_name" value="{{last_name}}">
+          <label for="floatingInput">Last Name</label>
+        </div>
+    
+        <div class="form-floating">
+          <input type="email" class="form-control" id="email" placeholder="name@example.com" name="email">
+          <label for="floatingInput">Email address</label>
+        </div>
+        <div class="form-floating">
+          <input type="password" class="form-control" id="password" placeholder="Password" name="password">
+          <label for="floatingPassword">Password</label>
+        </div>
+        
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Update Profile</button>
+      
+      
+      </form>
+      <div>
+    </div>    
+    </main>
+  
+    
+  </div>
+
+  <script src="{% static 'profile/imageUpload/jquery-1.12.4.min.js' %}"></script>
+
+  <script src="{% static 'profile/imageUpload/bootstrap.min.js' %}"></script>
+
+  <script>
+  $(document).ready(function(){
+// Prepare the preview for profile picture
+    $("#wizard-picture").change(function(){
+        readURL(this);
+    });
+});
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#wizardPicturePreview').attr('src', e.target.result).fadeIn('slow');
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+  </script>
+  <script>
+    // prevent navigation
+    document.addEventListener("DOMContentLoaded", function() {
+      var links = document.getElementsByTagName("A");
+      for(var i=0; i < links.length; i++) {
+        links[i].addEventListener("click", function(e) {
+          var href = this.getAttribute("href")
+
+          if (!href) {
+            return
+          }
+
+          if (href === '#') {
+            // hash only ('#')
+            console.debug('Internal nav allowed by Codeply');
+            e.preventDefault()
+          }
+          else if (this.hash) {
+            // hash with tag ('#foo')
+            var element = null
+            try {
+              element = document.querySelector(this.hash)
+            }
+            catch(e) {
+              console.debug('Codeply internal nav querySelector failed')
+            }
+            if (element) {
+              // scroll to anchor
+              e.preventDefault();
+              const top = element.getBoundingClientRect().top + window.pageYOffset
+              //window.scrollTo({top, behavior: 'smooth'})
+              window.scrollTo(0,top)
+              console.debug('Internal anchor controlled by Codeply to element:' + this.hash)
+            }
+            else {
+              // allow javascript routing
+              console.debug('Internal nav route allowed by Codeply');
+            }
+          }
+          else if (href.indexOf("/p/")===0 || href.indexOf("/v/")===0) {
+            // special multi-page routing
+            console.debug('Special internal page route: ' + href)
+
+            var l = href.replace('/p/','/v/')
+
+            // reroute
+            e.preventDefault()
+            var newLoc = l + '?from=internal'
+            console.debug('Internal view will reroute to ' + newLoc) 
+            location.href = newLoc
+          }
+          else if (href.indexOf("./")===0) {
+            // special multi-page routing
+            console.debug('Special internal ./ route: ' + href)
+
+            var u = parent.document.URL.split("/")
+            var pn = href.split("/")[1]
+            var plyId = u[u.length-1]
+
+            if (plyId.indexOf('?from')>-1) {
+              // already rerouted this
+              console.debug('already rerouted')
+              plyId = u[u.length-2]
+            }
+
+            var l = plyId + '/' + pn
+            
+            console.debug(u)
+            console.debug(pn)
+            console.debug('l',l)
+
+            // reroute
+            e.preventDefault()
+            var newLoc = '/v/' + l + '?from=internal'
+            console.debug('Internal page will reroute to ' + newLoc) 
+            location.href = newLoc
+          }
+          else {
+            // no external links
+            e.preventDefault();
+            console.debug('External nav prevented by Codeply');
+          }
+          //return false;
+        })
+      }
+    }, null);
+  </script>
+
+{% comment %} 
+</body></html> {% endcomment %}
+
+{% endblock alu%}
